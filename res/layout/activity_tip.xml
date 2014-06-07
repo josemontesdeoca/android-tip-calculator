@@ -4,4 +4,66 @@
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
 
+    <EditText
+        android:id="@+id/etTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:inputType="number|numberDecimal" >
+
+	</EditText>
+
+    <Button
+        android:id="@+id/btn15pct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/pct_15" />
+
+    <Button
+        android:id="@+id/btn20pct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/btn15pct"
+        android:text="@string/pct_20" />
+
+    <Button
+        android:id="@+id/btn10pct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/btn15pct"
+        android:text="@string/pct_10" />
+
+    <TextView
+        android:id="@+id/tvTipLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
+        android:layout_toLeftOf="@+id/btn15pct"
+        android:text="@string/tip_is"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvTipAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTipLabel"
+        android:layout_alignBottom="@+id/tvTipLabel"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvTipLabel"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
