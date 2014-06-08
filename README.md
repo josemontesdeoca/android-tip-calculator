@@ -12,6 +12,7 @@ Completed user stories:
   * [x] Required: Upon selecting tip amount, formatted tip value is displayed.
   * [x] Optional: User changes the total amount and updated tip is reflected automatically.
   * [x] Optional: User can select custom tip percentage if desired.
+  * [x] Optional: User can select how many ways to split the tip.
   * [x] Optional: Experiment with trying input widgets to replace the buttons and/or textviews.
 
 ##Notes:
