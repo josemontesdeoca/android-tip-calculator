@@ -7,11 +7,14 @@ import java.text.NumberFormat;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class TipActivity extends Activity {
 
@@ -25,6 +28,8 @@ public class TipActivity extends Activity {
     private Button btn10pct;
     private Button btn15pct;
     private Button btn20pct;
+    
+    private Double tipPct;
 
     private final NumberFormat decimalFormatter = new DecimalFormat("#.##");
 
@@ -43,6 +48,27 @@ public class TipActivity extends Activity {
         btn10pct.setOnClickListener(calculateTipListener(TIP_10_PCT));
         btn15pct.setOnClickListener(calculateTipListener(TIP_15_PCT));
         btn20pct.setOnClickListener(calculateTipListener(TIP_20_PCT));
+        
+        // Set OnEditorActionListener for the EditText (etTotalAmount) widget
+        etTotalAmount.setOnEditorActionListener(new OnEditorActionListener() {
+            
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (tipPct != null) {
+                        try {
+                            double totalAmount = Double.parseDouble(v.getText().toString());
+                            double tipAmount = calculateTip(totalAmount, tipPct);
+                            
+                            tvTipAmount.setText("$" + decimalFormatter.format(tipAmount));
+                        } catch (NumberFormatException e) {
+                            Log.i(INPUT_SERVICE, "Invalid Total Amount: ", e);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private OnClickListener calculateTipListener(final double tipPct) {
@@ -52,7 +78,9 @@ public class TipActivity extends Activity {
             public void onClick(View v) {
                 try {
                     double totalAmount = Double.parseDouble(etTotalAmount.getText().toString());
+                    TipActivity.this.tipPct = tipPct;
                     double tipAmount = calculateTip(totalAmount, tipPct);
+                    
                     tvTipAmount.setText("$" + decimalFormatter.format(tipAmount));
                 } catch (NumberFormatException e) {
                     Log.i(INPUT_SERVICE, "Invalid Total Amount: ", e);

@@ -15,8 +15,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:inputType="number|numberDecimal" >
-
+        android:inputType="number|numberDecimal" 
+        android:imeOptions="actionDone" >
 	</EditText>
 
     <Button
