@@ -100,4 +100,41 @@
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <NumberPicker
+        android:id="@+id/npNumPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNumPeople"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tvPerPerson1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvTotalAmount"
+        android:paddingLeft="20dp"
+        android:text="@string/per_person"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvPerPerson2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvTipAmount"
+        android:paddingLeft="20dp"
+        android:text="@string/per_person"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvNumPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sbTipPct"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/num_of_people"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </RelativeLayout>
