@@ -5,7 +5,7 @@
     tools:context="${packageName}.${activityClass}" >
 
     <EditText
-        android:id="@+id/etTotalAmount"
+        android:id="@+id/etBillAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,43 +16,69 @@
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="number|numberDecimal" 
-        android:imeOptions="actionDone" >
+        android:imeOptions="actionDone" 
+        android:gravity="center" >
 	</EditText>
 
-    <Button
-        android:id="@+id/btn15pct"
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:id="@+id/sbTipPct"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/pct_15" />
+        android:layout_alignLeft="@+id/etBillAmount"
+        android:layout_alignRight="@+id/etBillAmount"
+        android:layout_below="@+id/etBillAmount"
+        android:layout_marginTop="50dp" />
 
-    <Button
-        android:id="@+id/btn20pct"
+    <TextView
+        android:id="@+id/tvBillLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/btn15pct"
-        android:text="@string/pct_20" />
+        android:layout_alignLeft="@+id/etBillAmount"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/bill"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <Button
-        android:id="@+id/btn10pct"
+    <TextView
+        android:id="@+id/tvTipPctLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/btn15pct"
-        android:text="@string/pct_10" />
+        android:layout_alignLeft="@+id/sbTipPct"
+        android:layout_below="@+id/etBillAmount"
+        android:layout_marginTop="21dp"
+        android:text="@string/tip_pct"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvTotalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="25dp"
+        android:paddingLeft="20dp"
+        android:text="@string/total"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTotalLabel"
+        android:layout_alignBottom="@+id/tvTotalLabel"
+        android:layout_alignParentRight="true"
+        android:paddingRight="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/tvTipLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="90dp"
-        android:layout_toLeftOf="@+id/btn15pct"
-        android:text="@string/tip_is"
+        android:layout_above="@+id/tvTotalLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="30dp"
+        android:paddingLeft="20dp"
+        android:text="@string/tip"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -61,9 +87,17 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvTipLabel"
         android:layout_alignBottom="@+id/tvTipLabel"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvTipLabel"
-        android:text=""
+        android:layout_alignParentRight="true"
+        android:paddingRight="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvTipPct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTipPctLabel"
+        android:layout_alignBottom="@+id/tvTipPctLabel"
+        android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

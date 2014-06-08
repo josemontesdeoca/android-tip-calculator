@@ -8,28 +8,21 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class TipActivity extends Activity {
 
-    private static final double TIP_10_PCT = 0.10;
-    private static final double TIP_15_PCT = 0.15;
-    private static final double TIP_20_PCT = 0.20;
+    private static final int DEFAUTL_INITIAL_TIP = 15;
 
-    private EditText etTotalAmount;
+    private EditText etBillAmount;
+    private TextView tvTipPct;
     private TextView tvTipAmount;
-
-    private Button btn10pct;
-    private Button btn15pct;
-    private Button btn20pct;
-    
-    private Double tipPct;
+    private TextView tvTotalAmount;
+    private SeekBar sbTipPct;
 
     private final NumberFormat decimalFormatter = new DecimalFormat("#.##");
 
@@ -38,32 +31,52 @@ public class TipActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
 
-        etTotalAmount = (EditText) findViewById(R.id.etTotalAmount);
+        // Bind UI elements
+        etBillAmount = (EditText) findViewById(R.id.etBillAmount);
+        tvTipPct = (TextView) findViewById(R.id.tvTipPct);
         tvTipAmount = (TextView) findViewById(R.id.tvTipAmount);
+        tvTotalAmount = (TextView) findViewById(R.id.tvTotalAmount);
+        sbTipPct = (SeekBar) findViewById(R.id.sbTipPct);
 
-        btn10pct = (Button) findViewById(R.id.btn10pct);
-        btn15pct = (Button) findViewById(R.id.btn15pct);
-        btn20pct = (Button) findViewById(R.id.btn20pct);
+        // Set up SeekBar Listener
+        sbTipPct.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        btn10pct.setOnClickListener(calculateTipListener(TIP_10_PCT));
-        btn15pct.setOnClickListener(calculateTipListener(TIP_15_PCT));
-        btn20pct.setOnClickListener(calculateTipListener(TIP_20_PCT));
-        
+            @Override
+            public void onStopTrackingTouch(SeekBar bar)
+            {
+                double bill = Double.parseDouble(etBillAmount.getText().toString());
+                int tipPct = bar.getProgress();
+
+                calculateTip(bill, tipPct);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar bar)
+            {
+                
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean)
+            {
+                tvTipPct.setText("" + paramInt + "%");
+            }
+        });
+        sbTipPct.setProgress(DEFAUTL_INITIAL_TIP);
+
         // Set OnEditorActionListener for the EditText (etTotalAmount) widget
-        etTotalAmount.setOnEditorActionListener(new OnEditorActionListener() {
-            
+        etBillAmount.setOnEditorActionListener(new OnEditorActionListener() {
+
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (tipPct != null) {
-                        try {
-                            double totalAmount = Double.parseDouble(v.getText().toString());
-                            double tipAmount = calculateTip(totalAmount, tipPct);
-                            
-                            tvTipAmount.setText("$" + decimalFormatter.format(tipAmount));
-                        } catch (NumberFormatException e) {
-                            Log.i(INPUT_SERVICE, "Invalid Total Amount: ", e);
-                        }
+                    try {
+                        double bill = Double.parseDouble(v.getText().toString());
+                        int tipPct = sbTipPct.getProgress();
+
+                        calculateTip(bill, tipPct);
+                    } catch (NumberFormatException e) {
+                        Log.i(INPUT_SERVICE, "Invalid bill amount: ", e);
                     }
                 }
                 return false;
@@ -71,31 +84,17 @@ public class TipActivity extends Activity {
         });
     }
 
-    private OnClickListener calculateTipListener(final double tipPct) {
-        return new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                try {
-                    double totalAmount = Double.parseDouble(etTotalAmount.getText().toString());
-                    TipActivity.this.tipPct = tipPct;
-                    double tipAmount = calculateTip(totalAmount, tipPct);
-                    
-                    tvTipAmount.setText("$" + decimalFormatter.format(tipAmount));
-                } catch (NumberFormatException e) {
-                    Log.i(INPUT_SERVICE, "Invalid Total Amount: ", e);
-                }
-            }
-        };
-    }
-
     /**
-     * Returns tip amount base on total and tip percentage.
+     * Calculate the tip amount base on bill and tip percentage and update the UI
      * 
-     * @param totalAmount
+     * @param bill
      * @param tipPct
      */
-    private double calculateTip(double totalAmount, double tipPct) {
-        return totalAmount * tipPct;
+    private void calculateTip(double bill, int tipPct) {
+        double tip = bill * tipPct / 100;
+        double totalAmount = bill + tip;
+
+        tvTipAmount.setText("$" + decimalFormatter.format(tip));
+        tvTotalAmount.setText("$" + decimalFormatter.format(totalAmount + tip));
     }
 }
