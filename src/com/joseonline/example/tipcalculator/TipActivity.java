@@ -65,11 +65,16 @@ public class TipActivity extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar bar)
             {
-                double bill = Double.parseDouble(etBillAmount.getText().toString());
-                int tipPct = bar.getProgress();
-                int splitNum = npNumPeople.getValue();
+                try {
+                    double bill = Double.parseDouble(etBillAmount.getText().toString());
+                    int tipPct = bar.getProgress();
+                    int splitNum = npNumPeople.getValue();
 
-                calculateTip(bill, tipPct, splitNum);
+                    calculateTip(bill, tipPct, splitNum);
+                } catch (NumberFormatException e) {
+                    Log.i(INPUT_SERVICE, "Invalid bill amount: ", e);
+                }
+                
             }
 
             @Override
@@ -123,18 +128,23 @@ public class TipActivity extends Activity {
 
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (newVal > 1) {
-                    tvPerPerson1.setVisibility(View.VISIBLE);
-                    tvPerPerson2.setVisibility(View.VISIBLE);
-                } else {
-                    tvPerPerson1.setVisibility(View.INVISIBLE);
-                    tvPerPerson2.setVisibility(View.INVISIBLE);
+                try {
+                    double bill = Double.parseDouble(etBillAmount.getText().toString());
+                    int tipPct = sbTipPct.getProgress();
+
+                    calculateTip(bill, tipPct, newVal);
+                    
+                    if (newVal > 1) {
+                        tvPerPerson1.setVisibility(View.VISIBLE);
+                        tvPerPerson2.setVisibility(View.VISIBLE);
+                    } else {
+                        tvPerPerson1.setVisibility(View.INVISIBLE);
+                        tvPerPerson2.setVisibility(View.INVISIBLE);
+                    }
+                } catch (NumberFormatException e) {
+                    Log.i(INPUT_SERVICE, "Invalid bill amount: ", e);
                 }
-
-                double bill = Double.parseDouble(etBillAmount.getText().toString());
-                int tipPct = sbTipPct.getProgress();
-
-                calculateTip(bill, tipPct, newVal);
+                
             }
         });
     }
