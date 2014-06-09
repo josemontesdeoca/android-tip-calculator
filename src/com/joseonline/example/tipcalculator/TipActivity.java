@@ -49,7 +49,17 @@ public class TipActivity extends Activity {
         tvPerPerson1 = (TextView) findViewById(R.id.tvPerPerson1);
         tvPerPerson2 = (TextView) findViewById(R.id.tvPerPerson2);
 
-        // Set up SeekBar Listener
+        setupSeekBarListener();
+
+        setupEditorActionListener();
+
+        setupNumberPickerListener();
+    }
+    
+    /**
+     * Setup Tip Percentage (SeekBar) listener
+     */
+    private void setupSeekBarListener() {
         sbTipPct.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -75,8 +85,12 @@ public class TipActivity extends Activity {
             }
         });
         sbTipPct.setProgress(DEFAUTL_INITIAL_TIP);
-
-        // Set OnEditorActionListener for the EditText (etTotalAmount) widget
+    }
+    
+    /**
+     * Setup Total Amount (EditText) OnEditorActionListener
+     */
+    private void setupEditorActionListener() {
         etBillAmount.setOnEditorActionListener(new OnEditorActionListener() {
 
             @Override
@@ -95,7 +109,12 @@ public class TipActivity extends Activity {
                 return false;
             }
         });
-
+    }
+    
+    /**
+     * Setup Number of People (NumberPicker) Listener
+     */
+    private void setupNumberPickerListener() {
         // Initialize NumberPicker input control
         npNumPeople.setMaxValue(MAX_NUMBER_PICKER_VALUE);
         npNumPeople.setMinValue(MIN_NUMBER_PICKER_VALUE);
