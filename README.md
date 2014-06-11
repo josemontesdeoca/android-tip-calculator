@@ -2,7 +2,7 @@
 
 This is an Android demo application which allows a user to calculate the appropriate tip based on the total amount entered.
 
-Time spent: 8 hours spent in total
+Time spent: 12 hours spent in total
 
 Completed user stories:
 
