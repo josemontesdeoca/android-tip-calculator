@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <EditTextPreference 
+        android:key="pref_tip"
+        android:title="@string/tip"
+        android:dialogTitle="@string/tip_dialog_title" 
+        android:defaultValue="@string/tip_preference_default"
+        android:numeric="integer"/>
+
+</PreferenceScreen>

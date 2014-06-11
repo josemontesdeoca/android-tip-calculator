@@ -5,9 +5,15 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -19,7 +25,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class TipActivity extends Activity {
 
-    private static final int DEFAUTL_INITIAL_TIP = 15;
+    private static final int DEFAUTL_TIP = 15;
     private static final int MAX_NUMBER_PICKER_VALUE = 20;
     private static final int MIN_NUMBER_PICKER_VALUE = 1;
 
@@ -31,6 +37,8 @@ public class TipActivity extends Activity {
     private NumberPicker npNumPeople;
     private TextView tvPerPerson1;
     private TextView tvPerPerson2;
+
+    private SharedPreferences sharedPref;
 
     private final NumberFormat decimalFormatter = new DecimalFormat("#.##");
 
@@ -49,13 +57,18 @@ public class TipActivity extends Activity {
         tvPerPerson1 = (TextView) findViewById(R.id.tvPerPerson1);
         tvPerPerson2 = (TextView) findViewById(R.id.tvPerPerson2);
 
+        // setting default values
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         setupSeekBarListener();
 
         setupEditorActionListener();
 
         setupNumberPickerListener();
     }
-    
+
     /**
      * Setup Tip Percentage (SeekBar) listener
      */
@@ -74,7 +87,7 @@ public class TipActivity extends Activity {
                 } catch (NumberFormatException e) {
                     Log.i(INPUT_SERVICE, "Invalid bill amount: ", e);
                 }
-                
+
             }
 
             @Override
@@ -89,9 +102,12 @@ public class TipActivity extends Activity {
                 tvTipPct.setText("" + paramInt + "%");
             }
         });
-        sbTipPct.setProgress(DEFAUTL_INITIAL_TIP);
+        // sbTipPct.setProgress(DEFAUTL_INITIAL_TIP);
+        int defTip = Integer.parseInt(sharedPref.getString(UserSettingActivity.KEY_PREF_TIP,
+                Integer.toString(DEFAUTL_TIP)));
+        sbTipPct.setProgress(defTip);
     }
-    
+
     /**
      * Setup Total Amount (EditText) OnEditorActionListener
      */
@@ -115,7 +131,7 @@ public class TipActivity extends Activity {
             }
         });
     }
-    
+
     /**
      * Setup Number of People (NumberPicker) Listener
      */
@@ -133,7 +149,7 @@ public class TipActivity extends Activity {
                     int tipPct = sbTipPct.getProgress();
 
                     calculateTip(bill, tipPct, newVal);
-                    
+
                     if (newVal > 1) {
                         tvPerPerson1.setVisibility(View.VISIBLE);
                         tvPerPerson2.setVisibility(View.VISIBLE);
@@ -144,7 +160,7 @@ public class TipActivity extends Activity {
                 } catch (NumberFormatException e) {
                     Log.i(INPUT_SERVICE, "Invalid bill amount: ", e);
                 }
-                
+
             }
         });
     }
@@ -162,4 +178,31 @@ public class TipActivity extends Activity {
         tvTipAmount.setText("$" + decimalFormatter.format(tip));
         tvTotalAmount.setText("$" + decimalFormatter.format(totalAmount + tip));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.tip_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openSettings() {
+        // Launch settings activity
+        Intent i = new Intent(this, UserSettingActivity.class);
+        startActivity(i);
+    }
+
 }
