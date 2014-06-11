@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/CustomActionBarTheme" >
         <activity
             android:name="com.joseonline.example.tipcalculator.TipActivity"
             android:label="@string/app_name" >
@@ -20,6 +20,12 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.joseonline.example.tipcalculator.UserSettingActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
             </intent-filter>
         </activity>
     </application>
